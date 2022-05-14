@@ -1,39 +1,24 @@
 package com.seventh.demo.ui.setting
 
-import android.app.ProgressDialog
-import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.orhanobut.logger.Logger
+import com.seventh.demo.base.BaseAppCompatActivity
 import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.ActivitySettingBinding
-import com.seventh.demo.ui.login.LoginViewState
-import com.seventh.demo.vo.AppVersionVO
+import com.seventh.demo.data.vo.AppVersionVO
 
-class SettingActivity: AppCompatActivity() {
-    lateinit var viewBinding: ActivitySettingBinding
+class SettingActivity: BaseAppCompatActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
     private val viewModel by viewModels<SettingViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewBinding = ActivitySettingBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-
-        initView()
-        initViewStates()
-        initViewEvents()
-    }
-
-    private fun initView() {
-
-        viewBinding.btnUpdate.setOnClickListener {
+    override fun initView() {
+        binding.btnUpdate.setOnClickListener {
             viewModel.dispatch(SettingViewAction.UpdateVersion)
         }
     }
 
-    private fun initViewStates() {
+    override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, SettingViewState::appVersion) {
                 if (it!=null) {
@@ -43,27 +28,14 @@ class SettingActivity: AppCompatActivity() {
         }
     }
 
-    private fun initViewEvents() {
+    override fun initViewEvents() {
         viewModel.viewEvents.observeEvent(this) {
             when(it) {
                 is SettingViewEvent.ShowToast -> it.message.showToast()
-                is SettingViewEvent.ShowLoadingDialog -> showLoadingDialog()
-                is SettingViewEvent.DismissLoadingDialog -> dismissLoadingDialog()
+                is SettingViewEvent.ShowLoadingDialog -> showLoading()
+                is SettingViewEvent.DismissLoadingDialog -> dismissLoading()
             }
         }
-    }
-
-    private var progressDialog: ProgressDialog? = null
-
-    private fun showLoadingDialog() {
-        if (progressDialog == null) {
-            progressDialog = ProgressDialog(this)
-        }
-        progressDialog?.show()
-    }
-
-    private fun dismissLoadingDialog() {
-        progressDialog?.takeIf { it.isShowing }?.dismiss()
     }
 
     private fun showUploadDialog(appVersionVO: AppVersionVO) {

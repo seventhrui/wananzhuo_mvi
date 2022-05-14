@@ -7,7 +7,7 @@ import com.seventh.demo.core.SharedFlowEvents
 import com.seventh.demo.core.setEvent
 import com.seventh.demo.core.setState
 import com.seventh.demo.network.Api
-import com.seventh.demo.vo.AppVersionVO
+import com.seventh.demo.data.vo.AppVersionVO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.seventh.demo.vo
+package com.seventh.demo.data.vo
 
 import java.io.Serializable
 

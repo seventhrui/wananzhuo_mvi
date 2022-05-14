@@ -1,7 +1,7 @@
 package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
-import com.seventh.demo.vo.AppVersionVO
+import com.seventh.demo.data.vo.AppVersionVO
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
