@@ -2,6 +2,7 @@ package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
 import com.seventh.demo.data.vo.AppVersionVO
+import com.seventh.demo.data.vo.UserInfoVO
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -27,7 +28,6 @@ interface Api {
                 })
                 .addInterceptor(HeaderInterceptor())
                 .addInterceptor(LoggerInterceptor(BuildConfig.IS_DEBUG, BuildConfig.IS_DEBUG))
-//                .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("192.168.23.31", 8888)))
 
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -66,7 +66,7 @@ interface Api {
      */
     @FormUrlEncoded
     @POST("/user/login")
-    suspend fun loginUser(@FieldMap paramsMap: HashMap<String, Any>): BaseResponse<Any>
+    suspend fun loginUser(@FieldMap paramsMap: HashMap<String, Any>): BaseResponse<UserInfoVO>
 
     /**
      * 首页文章列表

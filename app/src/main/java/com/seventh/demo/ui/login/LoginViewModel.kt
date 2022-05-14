@@ -6,9 +6,12 @@ import com.orhanobut.logger.Logger
 import com.seventh.demo.core.SharedFlowEvents
 import com.seventh.demo.core.setEvent
 import com.seventh.demo.core.setState
+import com.seventh.demo.data.store.AppUserUtil
 import com.seventh.demo.network.Api
+import com.seventh.demo.network.HttpResult
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class LoginViewModel: ViewModel() {
     private val _viewStates = MutableStateFlow(LoginViewState())
@@ -41,17 +44,23 @@ class LoginViewModel: ViewModel() {
                 emit(Api.service.loginUser(params))
             }.onStart {
                 _viewEvents.setEvent(LoginViewEvent.ShowLoadingDialog)
+            }.map {
+                if (it.status == 0){
+                    HttpResult.Success(it.data!!)
+                } else {
+                    throw Exception(it.message)
+                }
             }.onEach {
+                AppUserUtil.onLogin(it.result)
                 _viewEvents.setEvent(
-                    LoginViewEvent.DismissLoadingDialog,
-                    LoginViewEvent.ShowToast(it.message)
+                    LoginViewEvent.DismissLoadingDialog
                 )
             }.catch {
                 _viewStates.setState { copy(password = "") }
                 Logger.e("登陆失败:${it}")
                 _viewEvents.setEvent(
                     LoginViewEvent.DismissLoadingDialog,
-                    LoginViewEvent.ShowToast("登录失败")
+                    LoginViewEvent.ShowToast("${it.message}")
                 )
             }.collect()
         }

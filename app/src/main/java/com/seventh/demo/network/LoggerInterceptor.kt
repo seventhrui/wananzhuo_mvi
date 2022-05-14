@@ -1,6 +1,7 @@
 package com.seventh.demo.network
 
 import android.text.TextUtils
+import android.util.Log
 import com.orhanobut.logger.Logger
 import okhttp3.Interceptor
 import okhttp3.Request

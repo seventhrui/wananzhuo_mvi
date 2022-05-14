@@ -6,6 +6,7 @@ import com.hjq.toast.ToastUtils
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
+import com.seventh.demo.data.store.DataStoreUtils
 
 class MyApp: Application() {
     companion object {
@@ -20,8 +21,13 @@ class MyApp: Application() {
         super.onCreate()
         instant = this
 
+        initDataStore()
         initLogger()
         initToast()
+    }
+
+    private fun initDataStore() {
+        DataStoreUtils.init(this)
     }
 
     /**
