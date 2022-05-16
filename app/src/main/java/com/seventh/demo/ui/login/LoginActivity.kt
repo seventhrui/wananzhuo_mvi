@@ -2,7 +2,6 @@ package com.seventh.demo.ui.login
 
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import com.orhanobut.logger.Logger
 import com.seventh.demo.base.BaseAppCompatActivity
 import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
@@ -40,7 +39,6 @@ class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBi
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, LoginViewState::userName) {
-                Logger.e("username：${it}")
                 binding.etUsername.setText(it)
                 binding.etUsername.setSelection(it.length)
             }
