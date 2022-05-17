@@ -32,6 +32,7 @@ class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBi
                 is LoginViewEvent.ShowToast -> it.message.showToast()
                 is LoginViewEvent.ShowLoadingDialog -> showLoading()
                 is LoginViewEvent.DismissLoadingDialog -> dismissLoading()
+                is LoginViewEvent.LoginSuccess -> gotoMainActivity()
             }
         }
     }
@@ -54,5 +55,9 @@ class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBi
 
             }
         }
+    }
+
+    private fun gotoMainActivity() {
+
     }
 }
