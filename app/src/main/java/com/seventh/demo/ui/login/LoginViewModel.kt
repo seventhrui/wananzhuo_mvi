@@ -53,6 +53,7 @@ class LoginViewModel: ViewModel() {
             }.onEach {
                 AppUserUtil.onLogin(it.result)
                 _viewEvents.setEvent(
+                    LoginViewEvent.LoginSuccess,
                     LoginViewEvent.DismissLoadingDialog
                 )
             }.catch {
@@ -78,6 +79,7 @@ sealed class LoginViewEvent {
     data class ShowToast(val message: String): LoginViewEvent()
     object ShowLoadingDialog: LoginViewEvent()
     object DismissLoadingDialog: LoginViewEvent()
+    object LoginSuccess: LoginViewEvent()
 }
 
 sealed class LoginViewAction {
