@@ -16,4 +16,5 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
     override fun initViewStates() {
 
     }
+
 }
