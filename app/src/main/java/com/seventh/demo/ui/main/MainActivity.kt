@@ -17,7 +17,7 @@ import com.seventh.demo.widget.navigationbar.LottieBarItem
 import com.seventh.demo.widget.navigationbar.ViewPager2FragmentAdapter
 
 enum class HomePageTabType(val tabName: String) {
-    Home("home"), Favorite("favorite"), UserCenter("userCenter")
+    Home("home"), Category("category"), Favorite("favorite"), UserCenter("userCenter")
 }
 
 class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -54,7 +54,7 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
                 add(this)
                 binding.lottieBottomBar.addView(
                     generateLottieBarItem(
-                        tabType = HomePageTabType.Favorite.tabName,
+                        tabType = HomePageTabType.Category.tabName,
                         lottie_title = strById(R.string.str_navigation_tab_category),
                         lottie_json_data = "tab_lottie_home.json"
                     )
@@ -65,7 +65,7 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
                 add(this)
                 binding.lottieBottomBar.addView(
                     generateLottieBarItem(
-                        tabType = HomePageTabType.UserCenter.tabName,
+                        tabType = HomePageTabType.Favorite.tabName,
                         lottie_title = strById(R.string.str_navigation_tab_favorite),
                         lottie_json_data = "tab_lottie_home.json"
                     )
@@ -96,6 +96,9 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
             when (bottomBarItem.getTag(R.id.tab_types) as? String) {
                 HomePageTabType.Home.tabName -> {
                     currentTabPage = HomePageTabType.Home
+                }
+                HomePageTabType.Category.tabName -> {
+                    currentTabPage = HomePageTabType.Favorite
                 }
                 HomePageTabType.Favorite.tabName -> {
                     currentTabPage = HomePageTabType.Favorite
