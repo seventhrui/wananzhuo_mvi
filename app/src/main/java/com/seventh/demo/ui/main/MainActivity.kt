@@ -124,13 +124,13 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
                     weight = 1F
                     gravity = Gravity.CENTER_VERTICAL
                 }
-            setmIconWidth(this@MainActivity.dimenPixelOffset(R.dimen.dp_30))
-            setmIconHeight(this@MainActivity.dimenPixelOffset(R.dimen.dp_30))
+            setmIconWidth(dimenPixelOffset(R.dimen.dp_30))
+            setmIconHeight(dimenPixelOffset(R.dimen.dp_30))
 
             setTabTitle(lottie_title)
-            setTabTitleSelectTextColor(this@MainActivity.colorById(R.color.home_color_tab_select))
-            setTabTitleUnSelectTextColor(this@MainActivity.colorById(R.color.home_color_tab_unselect))
-            setTabTitleTextSize(this@MainActivity.dimenPixelOffset(R.dimen.sp_10))
+            setTabTitleSelectTextColor(colorById(R.color.home_color_tab_select))
+            setTabTitleUnSelectTextColor(colorById(R.color.home_color_tab_unselect))
+            setTabTitleTextSize(dimenPixelOffset(R.dimen.sp_10))
 
             setLottieDataJson(lottie_json_data)
 
