@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_mvi">
         <activity
-            android:name="com.seventh.demo.EntryActivity"
+            android:name="com.seventh.demo.ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

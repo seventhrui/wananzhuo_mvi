@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">android_example</string>
+    <!--主页-->
+    <string name="str_navigation_tab_home">首页</string>
+    <string name="str_navigation_tab_category">分类</string>
+    <string name="str_navigation_tab_favorite">收藏</string>
+    <string name="str_navigation_tab_mine">我的</string>
 </resources>

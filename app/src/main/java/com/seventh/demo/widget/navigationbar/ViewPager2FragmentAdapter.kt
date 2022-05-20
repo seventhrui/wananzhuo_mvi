@@ -1,8 +1,9 @@
-package com.seventh.demo.widget.viewpager
+package com.seventh.demo.widget.navigationbar
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import kotlin.collections.ArrayList
 
 class ViewPager2FragmentAdapter : FragmentStateAdapter {
 

@@ -9,5 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
+    <color name="color_333333">#333333</color>
+    <color name="color_a1a0ab">#a1a0ab</color>
+
     <color name="color_7e2626">#7e2626</color>
+    <color name="color_fe3f6d">#fe3f6d</color>
+
+    <!--  APP 主页5个TAB颜色  -->
+    <color name="home_color_tab_select">@color/color_333333</color>
+    <color name="home_color_tab_unselect">@color/color_a1a0ab</color>
 </resources>

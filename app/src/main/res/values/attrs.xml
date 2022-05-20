@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationBarLottieItem">
+
+        <!--lottie datajson-->
+        <attr name="navigation_lottie_json_data" format="string"/>
+        <!--lottie image path -->
+        <attr name="navigation_lottie_image_path" format="string"/>
+
+        <!--设置图标的宽度-->
+        <attr name="navigation_lottie_iconWidth" format="dimension"/>
+        <!--设置图标的高度-->
+        <attr name="navigation_lottie_iconHeight" format="dimension"/>
+
+        <!--图标距离底部的距离-->
+        <attr name="navigation_lottie_iconMarginBottom" format="dimension"/>
+
+        <!--设置未读数字体大小-->
+        <attr name="navigation_lottie_unreadTextSize" format="dimension"/>
+        <!--设置未读数字体颜色-->
+        <attr name="navigation_lottie_unreadTextColor" format="reference"/>
+        <!--设置未读数背景色-->
+        <attr name="navigation_lottie_unreadTextBg" format="reference"/>
+
+        <!--设置提示消息字体大小-->
+        <attr name="navigation_lottie_msgTextSize" format="dimension"/>
+        <!--设置提示消息字体颜色-->
+        <attr name="navigation_lottie_msgTextColor" format="reference"/>
+        <!--设置提示消息背景-->
+        <attr name="navigation_lottie_msgTextBg" format="reference"/>
+
+        <!--设置提示点背景-->
+        <attr name="navigation_lottie_notifyPointBg" format="reference"/>
+
+        <!--设置Tab Title-->
+        <attr name="navigation_lottie_title" format="string"/>
+        <attr name="navigation_lottie_titleSelectTextColor" format="color|reference"/>
+        <attr name="navigation_lottie_titleUnSelectTextColor" format="color|reference"/>
+        <attr name="navigation_lottie_titleTextSize" format="dimension|reference"/>
+
+        <!--设置未读数组阈值 大于阈值的数字将显示为 n+ n为设置的阈值-->
+        <attr name="navigation_lottie_unreadThreshold" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="NavigationBarLottieLayout">
+        <attr name="navigation_lottie_smoothScroll" format="boolean"/>
+    </declare-styleable>
+</resources>

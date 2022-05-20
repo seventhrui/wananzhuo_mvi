@@ -16,7 +16,7 @@
         android:layout_height="@dimen/dp_30"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        app:lottie_rawRes="@raw/bell_notice" />
+        app:lottie_fileName="bell_notice.json" />
 
     <TextView
         android:id="@android:id/message"
