@@ -22,9 +22,15 @@ class HomeViewModel: ViewModel() {
 
     fun dispatch(viewAction: HomeViewAction) {
         when(viewAction) {
+            is HomeViewAction.UpdatePageNum -> updatePageNum(viewAction.page)
             is HomeViewAction.GetBanner -> getBanner()
-            is HomeViewAction.GetList -> getList()
+            is HomeViewAction.GetListRefresh -> getList()
+            is HomeViewAction.GetListMore -> getList()
         }
+    }
+
+    private fun updatePageNum(page: Int) {
+        _viewStates.setState { copy(page = page) }
     }
 
     private fun getBanner() {
@@ -44,17 +50,21 @@ class HomeViewModel: ViewModel() {
             }.catch {
                 Log.e("HomeViewModel", "getBanner:${it.message}")
                 _viewEvents.setEvent(
-                    HomeViewEvent.DismissLoadingDialog,
                     HomeViewEvent.ShowToast("${it.message}")
                 )
-            }.collect()
+            }.onCompletion {
+                _viewEvents.setEvent(
+                    HomeViewEvent.DismissLoadingDialog
+                )
+            }
+            .collect()
         }
     }
 
     private fun getList() {
         viewModelScope.launch {
             flow {
-                emit(Api.service.articleList(1, 20))
+                emit(Api.service.articleList(viewStates.value.page, 20))
             }.onStart {
                 _viewEvents.setEvent(HomeViewEvent.ShowLoadingDialog)
             }.map {
@@ -71,6 +81,10 @@ class HomeViewModel: ViewModel() {
                     HomeViewEvent.DismissLoadingDialog,
                     HomeViewEvent.ShowToast("${it.message}")
                 )
+            }.onCompletion {
+                _viewEvents.setEvent(
+                    HomeViewEvent.DismissLoadingDialog
+                )
             }.collect()
         }
     }
@@ -78,6 +92,7 @@ class HomeViewModel: ViewModel() {
 
 data class HomeViewState(
     val bannerList: List<BannerVo> = emptyList(),
+    val page: Int = 0,
     val articleList: List<ArticleVO> = emptyList()
 )
 
@@ -89,5 +104,7 @@ sealed class HomeViewEvent {
 
 sealed class HomeViewAction {
     object GetBanner: HomeViewAction()
-    object GetList: HomeViewAction()
+    data class UpdatePageNum(val page: Int): HomeViewAction()
+    object GetListRefresh: HomeViewAction()
+    object GetListMore: HomeViewAction()
 }

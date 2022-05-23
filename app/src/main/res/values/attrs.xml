@@ -45,4 +45,24 @@
     <declare-styleable name="NavigationBarLottieLayout">
         <attr name="navigation_lottie_smoothScroll" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="QMUIPullRefreshLayout">
+        <!--下拉阻率取决于灵敏性，可以下拉更多距离-->
+        <attr name="qmui_refresh_drag_rate" format="float"/>
+        <!-- RefreshView的初始offset -->
+        <attr name="qmui_refresh_init_offset" format="dimension"/>
+        <!-- 刷新时RefreshView的offset -->
+        <attr name="qmui_refresh_end_offset" format="dimension"/>
+        <!-- TargetView(ListView或者ScrollView等)的初始位置 -->
+        <attr name="qmui_target_init_offset" format="dimension"/>
+        <!-- 刷新时TargetView(ListView或者ScrollView等)的位置-->
+        <attr name="qmui_target_refresh_offset" format="dimension"/>
+        <!-- 是否自动根据RefreshView的高度计算RefreshView的初始位置-->
+        <attr name="qmui_auto_calculate_refresh_init_offset" format="boolean"/>
+        <!-- 是否自动根据TargetView在刷新时的位置计算RefreshView的结束位置-->
+        <attr name="qmui_auto_calculate_refresh_end_offset" format="boolean"/>
+        <!-- TargetView的刷新位置与RefreshView高度相等-->
+        <attr name="qmui_equal_target_refresh_offset_to_refresh_view_height" format="boolean"/>
+    </declare-styleable>
+    <attr name="QMUIPullRefreshLayoutStyle" format="reference"/>
 </resources>

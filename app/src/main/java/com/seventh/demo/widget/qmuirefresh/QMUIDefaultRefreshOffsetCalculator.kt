@@ -1,0 +1,50 @@
+/*
+ * Tencent is pleased to support the icon_right_arrow source community by making QMUI_Android available.
+ *
+ * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
+ *
+ * Licensed under the MIT License (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ *
+ * http://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.seventh.demo.widget.qmuirefresh
+
+/**
+ * [QMUIPullRefreshLayout]的默认RefreshView偏移量计算器：
+ * 偏移范围限定在[refreshInitOffset, refreshEndOffset]
+ *
+ * @author cginechen
+ * @date 2017-06-07
+ */
+
+class QMUIDefaultRefreshOffsetCalculator : QMUIPullRefreshLayout.RefreshOffsetCalculator {
+
+    override fun calculateRefreshOffset(
+        refreshInitOffset: Int,
+        refreshEndOffset: Int,
+        refreshViewHeight: Int,
+        targetCurrentOffset: Int,
+        targetInitOffset: Int,
+        targetRefreshOffset: Int
+    ): Int {
+        val refreshOffset: Int
+        if (targetCurrentOffset >= targetRefreshOffset) {
+            refreshOffset = refreshEndOffset
+        } else if (targetCurrentOffset <= targetInitOffset) {
+            refreshOffset = refreshInitOffset
+        } else {
+            val percent =
+                (targetCurrentOffset - targetInitOffset) * 1.0f / (targetRefreshOffset - targetInitOffset)
+            refreshOffset =
+                (refreshInitOffset + percent * (refreshEndOffset - refreshInitOffset)).toInt()
+        }
+        return refreshOffset
+    }
+}

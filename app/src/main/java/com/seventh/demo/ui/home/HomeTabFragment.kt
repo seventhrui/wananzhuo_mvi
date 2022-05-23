@@ -12,6 +12,7 @@ import com.seventh.demo.core.showToast
 import com.seventh.demo.data.vo.ArticleVO
 import com.seventh.demo.data.vo.BannerVo
 import com.seventh.demo.databinding.FragmentHomeBinding
+import com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout
 import com.youth.banner.indicator.RectangleIndicator
 
 class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -42,7 +43,7 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     override fun initData() {
         viewModel.dispatch(HomeViewAction.GetBanner)
-        viewModel.dispatch(HomeViewAction.GetList)
+        viewModel.dispatch(HomeViewAction.GetListRefresh)
     }
 
     override fun initViewEvents() {
@@ -52,6 +53,19 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
                 is HomeViewEvent.ShowLoadingDialog -> showLoading()
                 is HomeViewEvent.DismissLoadingDialog -> dismissLoading()
             }
+        }
+
+        binding.qrlHome.setRefreshListener(object: QMUIPullRefreshLayout.SimpleRefreshListener {
+            override fun onRefresh() {
+                viewModel.dispatch(HomeViewAction.UpdatePageNum(0))
+                initData()
+            }
+        })
+
+        articleListAdapter.loadMoreModule.checkDisableLoadMoreIfNotFullPage()
+        articleListAdapter.loadMoreModule.setOnLoadMoreListener {
+            viewModel.dispatch(HomeViewAction.UpdatePageNum(2))
+            viewModel.dispatch(HomeViewAction.GetListMore)
         }
     }
 
@@ -65,11 +79,17 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
             }
             states.observeState(this, HomeViewState::articleList) {
                 Log.e("getlist", "长度：${it.size}")
-                it.let {
-                    it1 -> articleList.addAll(it1)
+                it.let { it1 ->
+                    articleList.addAll(it1)
                     articleListAdapter.notifyDataSetChanged()
                 }
             }
         }
+    }
+
+    override fun dismissLoading() {
+        super.dismissLoading()
+        binding.qrlHome.finishRefresh()
+        articleListAdapter.loadMoreModule.isLoadEndMoreGone
     }
 }

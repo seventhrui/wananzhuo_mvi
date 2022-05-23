@@ -55,10 +55,8 @@ abstract class BaseFragment<VB : ViewBinding>(private val bindingInflater: (infl
     }
 
     protected open fun showLoading() {
-        Log.e("加载", "开始")
     }
 
     protected open fun dismissLoading() {
-        Log.e("加载", "结束")
     }
 }
