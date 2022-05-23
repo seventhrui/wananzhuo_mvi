@@ -2,11 +2,13 @@ package com.seventh.demo.base
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.orhanobut.logger.Logger
 
 abstract class BaseFragment<VB : ViewBinding>(private val bindingInflater: (inflater: LayoutInflater) -> VB) :
     Fragment() {
@@ -42,10 +44,21 @@ abstract class BaseFragment<VB : ViewBinding>(private val bindingInflater: (infl
         initView()
         initViewStates()
         initViewEvents()
+        initData()
     }
+
+    protected open fun initData() {}
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    protected open fun showLoading() {
+        Log.e("加载", "开始")
+    }
+
+    protected open fun dismissLoading() {
+        Log.e("加载", "结束")
     }
 }

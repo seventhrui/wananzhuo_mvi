@@ -1,5 +1,6 @@
 package com.seventh.demo.ui.login
 
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.seventh.demo.base.BaseAppCompatActivity
@@ -7,6 +8,7 @@ import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.ActivityLoginBinding
+import com.seventh.demo.ui.main.MainActivity
 
 class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
@@ -58,6 +60,6 @@ class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBi
     }
 
     private fun gotoMainActivity() {
-
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
     }
 }

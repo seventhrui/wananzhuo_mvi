@@ -25,7 +25,7 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
     private var currentTabPage: HomePageTabType? = HomePageTabType.Home
 
     override fun initView() {
-        setupHomeTabs()
+        initHomeTabs()
     }
 
     override fun initViewEvents() {
@@ -36,7 +36,7 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
 
     }
 
-    private fun setupHomeTabs() {
+    private fun initHomeTabs() {
         val tabFragments = mutableListOf<Fragment>().apply {
             // 首页
             with(HomeTabFragment()) {

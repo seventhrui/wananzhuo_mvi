@@ -1,8 +1,7 @@
 package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
-import com.seventh.demo.data.vo.AppVersionVO
-import com.seventh.demo.data.vo.UserInfoVO
+import com.seventh.demo.data.vo.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -69,18 +68,16 @@ interface Api {
     suspend fun loginUser(@FieldMap paramsMap: HashMap<String, Any>): BaseResponse<UserInfoVO>
 
     /**
+     * 首页banner
+     */
+    @GET("/banner/json")
+    suspend fun bannerList(): BaseResponse<ArrayList<BannerVo>>
+
+    /**
      * 首页文章列表
      * page
      * page_size
      */
     @GET("/article/list/{page}/json")
-    fun articleList(@Path("page") page: Int, @Query("page_size") pageSize: Int): BaseResponse<Any>
-
-    /**
-     * 首页banner
-     */
-    @GET("/banner/json")
-    fun bannerList(): BaseResponse<Any>
-
-
+    suspend fun articleList(@Path("page") page: Int, @Query("page_size") pageSize: Int): BaseResponse<ArticleListVO>
 }
