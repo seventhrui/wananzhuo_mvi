@@ -175,7 +175,7 @@ class QMUIPullRefreshLayout @JvmOverloads constructor(
 
         try {
             mDragRate =
-                array.getFloat(R.styleable.QMUIPullRefreshLayout_qmui_refresh_drag_rate, 0.65f)
+                array.getFloat(R.styleable.QMUIPullRefreshLayout_qmui_refresh_drag_rate, 0.75f)
             refreshInitOffset = array.getDimensionPixelSize(
                 R.styleable.QMUIPullRefreshLayout_qmui_refresh_init_offset, Integer.MIN_VALUE
             )

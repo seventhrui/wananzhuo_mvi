@@ -32,7 +32,10 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
         }
 
-        binding.rvHome.layoutManager = LinearLayoutManager(mContext)
+        binding.rvHome.setHasFixedSize(true)
+        binding.rvHome.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false).apply {
+            isSmoothScrollbarEnabled = false
+        }
         binding.rvHome.adapter = articleListAdapter
     }
 
