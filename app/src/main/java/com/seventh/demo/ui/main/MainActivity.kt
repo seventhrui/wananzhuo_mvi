@@ -24,6 +24,9 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
 
     private var currentTabPage: HomePageTabType? = HomePageTabType.Home
 
+    override fun overrideStatusBar(isHideStatusBar: Boolean, is_M_LightMode: Boolean, color: Int) =
+        super.overrideStatusBar(isHideStatusBar = true, is_M_LightMode = true, color = color)
+
     override fun initView() {
         initHomeTabs()
     }

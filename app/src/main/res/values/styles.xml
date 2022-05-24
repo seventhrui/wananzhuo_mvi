@@ -1,3 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/color_333333</item>
+
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <!--activity统一动画-->
+    <style name="ActivityAnimation" mce_bogus="1" parent="@android:style/Animation.Activity">
+        <!--A打开B，B的出现动画-->
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter_anim</item>
+        <!--A打开B，A的消失动画-->
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit_anim</item>
+        <!--A关闭B，B的出现动画-->
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter_anim</item>
+        <!--A关闭B，A的消失动画-->
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit_anim</item>
+    </style>
+
+
+    <style name="AppTheme.NotchScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 设置window过度效果 禁用窗口的预览动画 -->
+        <item name="android:windowDisablePreview">false</item>
+    </style>
 </resources>

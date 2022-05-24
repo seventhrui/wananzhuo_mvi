@@ -19,11 +19,6 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
     private lateinit var bannerAdsAdapter: BannerAdsAdapter
     private var articleListAdapter = ArticleListAdapter()
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("HOMEFRAGMENT", "onResume")
-    }
-
     override fun initView() {
         bannerAdsAdapter = BannerAdsAdapter(mContext)
         binding.homeBanner.setAdapter(bannerAdsAdapter)
@@ -33,9 +28,7 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
         }
 
         binding.rvHome.setHasFixedSize(true)
-        binding.rvHome.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false).apply {
-            isSmoothScrollbarEnabled = false
-        }
+        binding.rvHome.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         binding.rvHome.adapter = articleListAdapter
     }
 
