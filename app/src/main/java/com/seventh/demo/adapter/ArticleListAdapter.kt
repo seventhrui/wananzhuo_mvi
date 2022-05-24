@@ -8,7 +8,7 @@ import com.seventh.demo.R
 import com.seventh.demo.data.vo.ArticleVO
 import com.seventh.demo.utils.TimeUtils
 
-class ArticleListAdapter(data: ArrayList<ArticleVO>): BaseQuickAdapter<ArticleVO, BaseViewHolder>(R.layout.item_article_list, data), LoadMoreModule {
+class ArticleListAdapter(data: ArrayList<ArticleVO> = ArrayList()): BaseQuickAdapter<ArticleVO, BaseViewHolder>(R.layout.item_article_list, data), LoadMoreModule {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun convert(holder: BaseViewHolder, item: ArticleVO) {

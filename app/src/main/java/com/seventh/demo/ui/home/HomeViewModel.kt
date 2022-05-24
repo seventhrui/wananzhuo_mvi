@@ -20,17 +20,14 @@ class HomeViewModel: ViewModel() {
     private val _viewEvents = SharedFlowEvents<HomeViewEvent>()
     val viewEvents = _viewEvents.asSharedFlow()
 
+    private var currentPage = 0
+
     fun dispatch(viewAction: HomeViewAction) {
         when(viewAction) {
-            is HomeViewAction.UpdatePageNum -> updatePageNum(viewAction.page)
             is HomeViewAction.GetBanner -> getBanner()
-            is HomeViewAction.GetListRefresh -> getList()
-            is HomeViewAction.GetListMore -> getList()
+            is HomeViewAction.GetListRefresh -> getListRefresh()
+            is HomeViewAction.GetListMore -> getListMore()
         }
-    }
-
-    private fun updatePageNum(page: Int) {
-        _viewStates.setState { copy(page = page) }
     }
 
     private fun getBanner() {
@@ -61,10 +58,11 @@ class HomeViewModel: ViewModel() {
         }
     }
 
-    private fun getList() {
+    private fun getListRefresh() {
         viewModelScope.launch {
             flow {
-                emit(Api.service.articleList(viewStates.value.page, 20))
+                currentPage = 0
+                emit(Api.service.articleList(currentPage, 20))
             }.onStart {
                 _viewEvents.setEvent(HomeViewEvent.ShowLoadingDialog)
             }.map {
@@ -88,11 +86,39 @@ class HomeViewModel: ViewModel() {
             }.collect()
         }
     }
+
+    private fun getListMore() {
+        viewModelScope.launch {
+            flow {
+                currentPage += 1
+                emit(Api.service.articleList(currentPage, 20))
+            }.onStart {
+                _viewEvents.setEvent(HomeViewEvent.ShowLoadingDialog)
+            }.map {
+                if (it.status == 0){
+                    HttpResult.Success(it.data!!)
+                } else {
+                    throw Exception(it.message)
+                }
+            }.onEach {
+                _viewStates.setState { copy(articleList = this.articleList + it.result.datas) }
+            }.catch {
+                Log.e("HomeViewModel", "getList:${it.message}")
+                _viewEvents.setEvent(
+                    HomeViewEvent.DismissLoadingDialog,
+                    HomeViewEvent.ShowToast("${it.message}")
+                )
+            }.onCompletion {
+                _viewEvents.setEvent(
+                    HomeViewEvent.DismissLoadingDialog
+                )
+            }.collect()
+        }
+    }
 }
 
 data class HomeViewState(
     val bannerList: List<BannerVo> = emptyList(),
-    val page: Int = 0,
     val articleList: List<ArticleVO> = emptyList()
 )
 
@@ -104,7 +130,6 @@ sealed class HomeViewEvent {
 
 sealed class HomeViewAction {
     object GetBanner: HomeViewAction()
-    data class UpdatePageNum(val page: Int): HomeViewAction()
     object GetListRefresh: HomeViewAction()
     object GetListMore: HomeViewAction()
 }
