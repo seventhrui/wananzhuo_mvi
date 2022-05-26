@@ -14,6 +14,7 @@ import com.seventh.demo.ui.favorite.FavoriteTabFragment
 import com.seventh.demo.ui.home.HomeTabFragment
 import com.seventh.demo.ui.mine.MineTabFragment
 import com.seventh.demo.widget.navigationbar.LottieBarItem
+import com.seventh.demo.widget.navigationbar.LottieBottomBarLayout
 import com.seventh.demo.widget.navigationbar.ViewPager2FragmentAdapter
 
 enum class HomePageTabType(val tabName: String) {
@@ -95,25 +96,32 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
         binding.vpTabs.offscreenPageLimit = tabFragments.size
 
         binding.lottieBottomBar.setViewPager(binding.vpTabs)
-        binding.lottieBottomBar.setOnItemSelectedListener { bottomBarItem, previousPosition, currentPosition ->
-            when (bottomBarItem.getTag(R.id.tab_types) as? String) {
-                HomePageTabType.Home.tabName -> {
-                    currentTabPage = HomePageTabType.Home
-                }
-                HomePageTabType.Category.tabName -> {
-                    currentTabPage = HomePageTabType.Favorite
-                }
-                HomePageTabType.Favorite.tabName -> {
-                    currentTabPage = HomePageTabType.Favorite
-                }
-                HomePageTabType.UserCenter.tabName -> {
-                    currentTabPage = HomePageTabType.UserCenter
-                }
-                else -> {
-                    currentTabPage = HomePageTabType.Home
+        binding.lottieBottomBar.setOnItemSelectedListener(object :
+            LottieBottomBarLayout.OnItemSelectedListener {
+            override fun onItemSelected(
+                bottomBarItem: LottieBarItem?,
+                previousPosition: Int,
+                currentPosition: Int
+            ) {
+                when(bottomBarItem?.getTag(R.id.tab_types) as String) {
+                    HomePageTabType.Home.tabName -> {
+                        currentTabPage = HomePageTabType.Home
+                    }
+                    HomePageTabType.Category.tabName -> {
+                        currentTabPage = HomePageTabType.Favorite
+                    }
+                    HomePageTabType.Favorite.tabName -> {
+                        currentTabPage = HomePageTabType.Favorite
+                    }
+                    HomePageTabType.UserCenter.tabName -> {
+                        currentTabPage = HomePageTabType.UserCenter
+                    }
+                    else -> {
+                        currentTabPage = HomePageTabType.Home
+                    }
                 }
             }
-        }
+        })
     }
 
     private fun generateLottieBarItem(

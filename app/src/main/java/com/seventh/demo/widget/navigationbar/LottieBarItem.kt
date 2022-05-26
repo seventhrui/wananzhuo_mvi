@@ -1,307 +1,307 @@
-package com.seventh.demo.widget.navigationbar;
+package com.seventh.demo.widget.navigationbar
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.content.res.TypedArray
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.text.TextUtils
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.Gravity
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.seventh.demo.R
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-
-import com.seventh.demo.R;
-
-import java.util.Locale;
-
-
-public class LottieBarItem extends LinearLayout {
-
-    private final Context mContext;
-    private String lottieDataJson;
-    private String lottieImagePath;
-
-    private int iconMarginBottom = 0;//图标距离底部的距离
-
-    private BottomBarLottieAnimationView lottieAnimationView;
-    private int mIconWidth, mIconHeight;//图标的尺寸
-    private TextView mTvUnread;
-    private TextView mTvNotify;
-    private TextView mTvMsg;
-    private TextView mTextView;
-
-    private int mUnreadTextSize = 10; //未读数默认字体大小10sp
-    private int mMsgTextSize = 6; //消息默认字体大小6sp
-    private int unreadNumThreshold = 99;//未读数阈值
-    private int mUnreadTextColor;//未读数字体颜色
-    private Drawable mUnreadTextBg;
-    private int mMsgTextColor;
-    private Drawable mMsgTextBg;
-    private Drawable mNotifyPointBg;
-
-    private String tabTitle;
-    private int tabTitleSelectTextColor;
-    private int tabTitleUnSelectTextColor;
-    private int tabTitleTextSize;
-
-    public LottieBarItem(Context context) {
-        this(context, null);
+class LottieBarItem @JvmOverloads constructor(
+    private val mContext: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(
+    mContext, attrs, defStyleAttr
+) {
+    private var lottieDataJson: String? = null
+    private var lottieImagePath: String? = null
+    private var iconMarginBottom = 0 //图标距离底部的距离
+    var lottieAnimationView: BottomBarLottieAnimationView? = null
+        private set
+    private var mIconWidth = 0
+    private var mIconHeight //图标的尺寸
+            = 0
+    private var mTvUnread: TextView? = null
+    private var mTvNotify: TextView? = null
+    private var mTvMsg: TextView? = null
+    var textView: TextView? = null
+        private set
+    private var mUnreadTextSize = 10 //未读数默认字体大小10sp
+    private var mMsgTextSize = 6 //消息默认字体大小6sp
+    var unreadNumThreshold = 99 //未读数阈值
+    private var mUnreadTextColor //未读数字体颜色
+            = 0
+    private var mUnreadTextBg: Drawable? = null
+    private var mMsgTextColor = 0
+    private var mMsgTextBg: Drawable? = null
+    private var mNotifyPointBg: Drawable? = null
+    private var tabTitle: String? = null
+    private var tabTitleSelectTextColor = 0
+    private var tabTitleUnSelectTextColor = 0
+    private var tabTitleTextSize = 0
+    private fun initAttrs(typedArray: TypedArray) {
+        lottieDataJson =
+            typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_json_data)
+        lottieImagePath =
+            typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_image_path)
+        mIconWidth = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_iconWidth,
+            0
+        )
+        mIconHeight = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_iconHeight,
+            0
+        )
+        iconMarginBottom = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_iconMarginBottom,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                iconMarginBottom.toFloat(),
+                resources.displayMetrics
+            ).toInt()
+        )
+        mUnreadTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextSize,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                mUnreadTextSize.toFloat(),
+                resources.displayMetrics
+            ).toInt()
+        )
+        mUnreadTextColor = typedArray.getColor(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextColor,
+            -0x1
+        )
+        mUnreadTextBg =
+            typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextBg)
+        mMsgTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextSize,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                mMsgTextSize.toFloat(),
+                resources.displayMetrics
+            ).toInt()
+        )
+        mMsgTextColor = typedArray.getColor(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextColor,
+            -0x1
+        )
+        mMsgTextBg =
+            typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextBg)
+        mNotifyPointBg =
+            typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_notifyPointBg)
+        unreadNumThreshold = typedArray.getInteger(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_unreadThreshold,
+            99
+        )
+        tabTitle = typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_title)
+        tabTitleTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_titleTextSize,
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
+                .toInt()
+        )
+        tabTitleSelectTextColor = typedArray.getColor(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_titleSelectTextColor,
+            Color.BLACK
+        )
+        tabTitleUnSelectTextColor = typedArray.getColor(
+            R.styleable.NavigationBarLottieItem_navigation_lottie_titleUnSelectTextColor,
+            Color.BLACK
+        )
     }
 
-    public LottieBarItem(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    fun setLottieDataJson(lottieDataJson: String?) {
+        this.lottieDataJson = lottieDataJson
     }
 
-    public LottieBarItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
-
-        initView();
-
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NavigationBarLottieItem);
-        initAttrs(typedArray); //初始化属性
-        typedArray.recycle();
-
-        setupConfig();//初始化相关操作
+    fun setLottieImagePath(lottieImagePath: String?) {
+        this.lottieImagePath = lottieImagePath
     }
 
-    private void initAttrs(TypedArray typedArray) {
-        lottieDataJson = typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_json_data);
-        lottieImagePath = typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_image_path);
-
-        mIconWidth = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_iconWidth, 0);
-        mIconHeight = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_iconHeight, 0);
-        iconMarginBottom = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_iconMarginBottom, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconMarginBottom, getResources().getDisplayMetrics()));
-
-        mUnreadTextSize = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mUnreadTextSize, getResources().getDisplayMetrics()));
-        mUnreadTextColor = typedArray.getColor(R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextColor, 0xFFFFFFFF);
-        mUnreadTextBg = typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_unreadTextBg);
-
-        mMsgTextSize = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mMsgTextSize, getResources().getDisplayMetrics()));
-        mMsgTextColor = typedArray.getColor(R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextColor, 0xFFFFFFFF);
-        mMsgTextBg = typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_msgTextBg);
-
-        mNotifyPointBg = typedArray.getDrawable(R.styleable.NavigationBarLottieItem_navigation_lottie_notifyPointBg);
-
-        unreadNumThreshold = typedArray.getInteger(R.styleable.NavigationBarLottieItem_navigation_lottie_unreadThreshold, 99);
-
-        tabTitle = typedArray.getString(R.styleable.NavigationBarLottieItem_navigation_lottie_title);
-        tabTitleTextSize = typedArray.getDimensionPixelSize(R.styleable.NavigationBarLottieItem_navigation_lottie_titleTextSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-
-        tabTitleSelectTextColor = typedArray.getColor(R.styleable.NavigationBarLottieItem_navigation_lottie_titleSelectTextColor, Color.BLACK);
-        tabTitleUnSelectTextColor = typedArray.getColor(R.styleable.NavigationBarLottieItem_navigation_lottie_titleUnSelectTextColor, Color.BLACK);
+    fun setIconMarginBottom(iconMarginBottom: Int) {
+        this.iconMarginBottom = iconMarginBottom
     }
 
-    public void setLottieDataJson(String lottieDataJson) {
-        this.lottieDataJson = lottieDataJson;
+    fun setmIconWidth(mIconWidth: Int) {
+        this.mIconWidth = mIconWidth
     }
 
-    public void setLottieImagePath(String lottieImagePath) {
-        this.lottieImagePath = lottieImagePath;
+    fun setmIconHeight(mIconHeight: Int) {
+        this.mIconHeight = mIconHeight
     }
 
-    public void setIconMarginBottom(int iconMarginBottom) {
-        this.iconMarginBottom = iconMarginBottom;
+    fun setmUnreadTextSize(mUnreadTextSize: Int) {
+        this.mUnreadTextSize = mUnreadTextSize
     }
 
-    public void setmIconWidth(int mIconWidth) {
-        this.mIconWidth = mIconWidth;
+    fun setmMsgTextSize(mMsgTextSize: Int) {
+        this.mMsgTextSize = mMsgTextSize
     }
 
-    public void setmIconHeight(int mIconHeight) {
-        this.mIconHeight = mIconHeight;
+    fun setmUnreadTextColor(mUnreadTextColor: Int) {
+        this.mUnreadTextColor = mUnreadTextColor
     }
 
-    public void setmUnreadTextSize(int mUnreadTextSize) {
-        this.mUnreadTextSize = mUnreadTextSize;
+    fun setmUnreadTextBg(mUnreadTextBg: Drawable?) {
+        this.mUnreadTextBg = mUnreadTextBg
     }
 
-    public void setmMsgTextSize(int mMsgTextSize) {
-        this.mMsgTextSize = mMsgTextSize;
+    fun setmMsgTextColor(mMsgTextColor: Int) {
+        this.mMsgTextColor = mMsgTextColor
     }
 
-    public void setmUnreadTextColor(int mUnreadTextColor) {
-        this.mUnreadTextColor = mUnreadTextColor;
+    fun setmMsgTextBg(mMsgTextBg: Drawable?) {
+        this.mMsgTextBg = mMsgTextBg
     }
 
-    public void setmUnreadTextBg(Drawable mUnreadTextBg) {
-        this.mUnreadTextBg = mUnreadTextBg;
+    fun setmNotifyPointBg(mNotifyPointBg: Drawable?) {
+        this.mNotifyPointBg = mNotifyPointBg
     }
 
-    public void setmMsgTextColor(int mMsgTextColor) {
-        this.mMsgTextColor = mMsgTextColor;
+    fun setTabTitle(tabTitle: String?) {
+        this.tabTitle = tabTitle
     }
 
-    public void setmMsgTextBg(Drawable mMsgTextBg) {
-        this.mMsgTextBg = mMsgTextBg;
+    fun setTabTitleSelectTextColor(tabTitleSelectTextColor: Int) {
+        this.tabTitleSelectTextColor = tabTitleSelectTextColor
     }
 
-    public void setmNotifyPointBg(Drawable mNotifyPointBg) {
-        this.mNotifyPointBg = mNotifyPointBg;
+    fun setTabTitleUnSelectTextColor(tabTitleUnSelectTextColor: Int) {
+        this.tabTitleUnSelectTextColor = tabTitleUnSelectTextColor
     }
 
-    public void setTabTitle(String tabTitle) {
-        this.tabTitle = tabTitle;
-    }
-
-    public void setTabTitleSelectTextColor(int tabTitleSelectTextColor) {
-        this.tabTitleSelectTextColor = tabTitleSelectTextColor;
-    }
-
-    public void setTabTitleUnSelectTextColor(int tabTitleUnSelectTextColor) {
-        this.tabTitleUnSelectTextColor = tabTitleUnSelectTextColor;
-    }
-
-    public void setTabTitleTextSize(int tabTitleTextSize) {
-        this.tabTitleTextSize = tabTitleTextSize;
+    fun setTabTitleTextSize(tabTitleTextSize: Int) {
+        this.tabTitleTextSize = tabTitleTextSize
     }
 
     /**
      * 检查传入的值是否完善
      */
-    private void checkValues() {
+    private fun checkValues() {
         if (mUnreadTextBg == null) {
-            mUnreadTextBg = getResources().getDrawable(R.drawable.navigationbar_shape_unread);
+            mUnreadTextBg = resources.getDrawable(R.drawable.navigationbar_shape_unread)
         }
-
         if (mMsgTextBg == null) {
-            mMsgTextBg = getResources().getDrawable(R.drawable.navigationbar_shape_msg);
+            mMsgTextBg = resources.getDrawable(R.drawable.navigationbar_shape_msg)
         }
-
         if (mNotifyPointBg == null) {
-            mNotifyPointBg = getResources().getDrawable(R.drawable.navigationbar_shape_notify_point);
+            mNotifyPointBg = resources.getDrawable(R.drawable.navigationbar_shape_notify_point)
         }
     }
 
-    public void setupConfig() {
-        checkValues();
-        setOrientation(VERTICAL);
-        setGravity(Gravity.CENTER);
+    fun setupConfig() {
+        checkValues()
+        orientation = VERTICAL
+        gravity = Gravity.CENTER
 
         //lottie
         if (!TextUtils.isEmpty(lottieDataJson)) {
-            lottieAnimationView.setAnimation(lottieDataJson);
+            lottieAnimationView!!.setAnimation(lottieDataJson)
         }
-
         if (TextUtils.isEmpty(lottieImagePath)) {
-            lottieAnimationView.setImageAssetsFolder("images/");
+            lottieAnimationView!!.imageAssetsFolder = "images/"
         }
-
-        FrameLayout.LayoutParams imageLayoutParams = (FrameLayout.LayoutParams) lottieAnimationView.getLayoutParams();
+        val imageLayoutParams = lottieAnimationView!!.layoutParams as FrameLayout.LayoutParams
         //icon位置和宽度
         if (mIconWidth != 0) {
-            imageLayoutParams.width = mIconWidth;
+            imageLayoutParams.width = mIconWidth
         }
         if (mIconHeight != 0) {
-            imageLayoutParams.height = mIconHeight;
+            imageLayoutParams.height = mIconHeight
         }
         if (iconMarginBottom != 0) {
-            imageLayoutParams.bottomMargin = iconMarginBottom;
+            imageLayoutParams.bottomMargin = iconMarginBottom
         }
-
-        lottieAnimationView.setLayoutParams(imageLayoutParams);
-
-        mTvUnread.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnreadTextSize);//设置未读数的字体大小
-        mTvUnread.setTextColor(mUnreadTextColor);//设置未读数字体颜色
-        mTvUnread.setBackground(mUnreadTextBg);//设置未读数背景
-
-        mTvMsg.setTextSize(TypedValue.COMPLEX_UNIT_PX, mMsgTextSize);//设置提示文字的字体大小
-        mTvMsg.setTextColor(mMsgTextColor);//设置提示文字的字体颜色
-        mTvMsg.setBackground(mMsgTextBg);//设置提示文字的背景颜色
-
-        mTvNotify.setBackground(mNotifyPointBg);//设置提示点的背景颜色
-
-        mTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTitleTextSize);
-        mTextView.setText(tabTitle);
-        mTextView.setTextColor(tabTitleUnSelectTextColor);
+        lottieAnimationView!!.layoutParams = imageLayoutParams
+        mTvUnread!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnreadTextSize.toFloat()) //设置未读数的字体大小
+        mTvUnread!!.setTextColor(mUnreadTextColor) //设置未读数字体颜色
+        mTvUnread!!.background = mUnreadTextBg //设置未读数背景
+        mTvMsg!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, mMsgTextSize.toFloat()) //设置提示文字的字体大小
+        mTvMsg!!.setTextColor(mMsgTextColor) //设置提示文字的字体颜色
+        mTvMsg!!.background = mMsgTextBg //设置提示文字的背景颜色
+        mTvNotify!!.background = mNotifyPointBg //设置提示点的背景颜色
+        textView!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTitleTextSize.toFloat())
+        textView!!.text = tabTitle
+        textView!!.setTextColor(tabTitleUnSelectTextColor)
     }
 
-    @NonNull
-    private void initView() {
-        View.inflate(mContext, R.layout.navigationbar_lottie_item, this);
-        lottieAnimationView = findViewById(R.id.lottie_view);
-        mTvUnread = findViewById(R.id.tv_unred_num);
-        mTvMsg = findViewById(R.id.tv_msg);
-        mTvNotify = findViewById(R.id.tv_point);
-        mTextView = findViewById(R.id.tv_text);
+    private fun initView() {
+        inflate(mContext, R.layout.navigationbar_lottie_item, this)
+        lottieAnimationView = findViewById(R.id.lottie_view)
+        mTvUnread = findViewById(R.id.tv_unred_num)
+        mTvMsg = findViewById(R.id.tv_msg)
+        mTvNotify = findViewById(R.id.tv_point)
+        textView = findViewById(R.id.tv_text)
     }
 
-    public BottomBarLottieAnimationView getLottieAnimationView() {
-        return lottieAnimationView;
-    }
-
-    public TextView getTextView() {
-        return mTextView;
-    }
-
-    public void setStatus(boolean isSelected) {
+    fun setStatus(isSelected: Boolean) {
         // 不做动画倒放，直接设置为第一帧默认
         if (isSelected) {
-            lottieAnimationView.cancelAnimation();
-            lottieAnimationView.setSpeed(1.0f);
-            lottieAnimationView.playAnimation();
+            lottieAnimationView!!.cancelAnimation()
+            lottieAnimationView!!.speed = 1.0f
+            lottieAnimationView!!.playAnimation()
             // 更改选中项Title颜色
-            mTextView.setTextColor(tabTitleSelectTextColor);
+            textView!!.setTextColor(tabTitleSelectTextColor)
         } else {
-            lottieAnimationView.cancelAnimation();
-            lottieAnimationView.setProgress(0f);
+            lottieAnimationView!!.cancelAnimation()
+            lottieAnimationView!!.progress = 0f
             // 更改未选中项Title颜色
-            mTextView.setTextColor(tabTitleUnSelectTextColor);
+            textView!!.setTextColor(tabTitleUnSelectTextColor)
         }
     }
 
-    private void setTvVisiable(TextView tv) {
+    private fun setTvVisiable(tv: TextView?) {
         //都设置为不可见
-        mTvUnread.setVisibility(GONE);
-        mTvMsg.setVisibility(GONE);
-        mTvNotify.setVisibility(GONE);
-
-        tv.setVisibility(VISIBLE);//设置为可见
-    }
-
-    public int getUnreadNumThreshold() {
-        return unreadNumThreshold;
-    }
-
-    public void setUnreadNumThreshold(int unreadNumThreshold) {
-        this.unreadNumThreshold = unreadNumThreshold;
+        mTvUnread!!.visibility = GONE
+        mTvMsg!!.visibility = GONE
+        mTvNotify!!.visibility = GONE
+        tv!!.visibility = VISIBLE //设置为可见
     }
 
     /**
      * 设置未读数
      */
-    public void setUnreadNum(int unreadNum) {
-        setTvVisiable(mTvUnread);
+    fun setUnreadNum(unreadNum: Int) {
+        setTvVisiable(mTvUnread)
         if (unreadNum <= 0) {
-            mTvUnread.setVisibility(GONE);
+            mTvUnread!!.visibility = GONE
         } else if (unreadNum <= unreadNumThreshold) {
-            mTvUnread.setText(String.valueOf(unreadNum));
+            mTvUnread!!.text = unreadNum.toString()
         } else {
-            mTvUnread.setText(String.format(Locale.CHINA, "%d+", unreadNumThreshold));
+            mTvUnread!!.text = String.format(Locale.CHINA, "%d+", unreadNumThreshold)
         }
     }
 
-    public void setMsg(String msg) {
-        setTvVisiable(mTvMsg);
-        mTvMsg.setText(msg);
+    fun setMsg(msg: String?) {
+        setTvVisiable(mTvMsg)
+        mTvMsg!!.text = msg
     }
 
-    public void hideMsg() {
-        mTvMsg.setVisibility(GONE);
+    fun hideMsg() {
+        mTvMsg!!.visibility = GONE
     }
 
-    public void showNotify() {
-        setTvVisiable(mTvNotify);
+    fun showNotify() {
+        setTvVisiable(mTvNotify)
     }
 
-    public void hideNotify() {
-        mTvNotify.setVisibility(GONE);
+    fun hideNotify() {
+        mTvNotify!!.visibility = GONE
+    }
+
+    init {
+        initView()
+        val typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.NavigationBarLottieItem)
+        initAttrs(typedArray) //初始化属性
+        typedArray.recycle()
+        setupConfig() //初始化相关操作
     }
 }

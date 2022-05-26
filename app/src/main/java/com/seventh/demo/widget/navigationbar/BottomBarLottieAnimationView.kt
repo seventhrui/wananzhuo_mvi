@@ -1,28 +1,23 @@
-package com.seventh.demo.widget.navigationbar;
+package com.seventh.demo.widget.navigationbar
 
-import android.content.Context;
-import android.os.Parcelable;
-import android.util.AttributeSet;
+import android.content.Context
+import com.airbnb.lottie.LottieAnimationView
+import android.os.Parcelable
+import android.util.AttributeSet
 
-import com.airbnb.lottie.LottieAnimationView;
-
-public class BottomBarLottieAnimationView extends LottieAnimationView {
-    public BottomBarLottieAnimationView(Context context) {
-        super(context);
+class BottomBarLottieAnimationView : LottieAnimationView {
+    constructor(context: Context?) : super(context) {}
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
     }
 
-    public BottomBarLottieAnimationView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BottomBarLottieAnimationView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable parcelable = super.onSaveInstanceState();
-        parcelable = null;
-        return null;
+    override fun onSaveInstanceState(): Parcelable? {
+        var parcelable = super.onSaveInstanceState()
+        parcelable = null
+        return null
     }
 }
