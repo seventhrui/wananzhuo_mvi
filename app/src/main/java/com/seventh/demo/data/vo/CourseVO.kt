@@ -1,6 +1,7 @@
 package com.seventh.demo.data.vo
 
 import android.os.Parcelable
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,8 +18,9 @@ data class CourseGroupVO(
     val order: Int,
     val parentChapterId: Int,
     val userControlSetTop: Boolean,
-    val visible: Int
-): Parcelable
+    val visible: Int,
+    override val itemType: Int
+): Parcelable, MultiItemEntity
 
 @Parcelize
 data class CourseVO(

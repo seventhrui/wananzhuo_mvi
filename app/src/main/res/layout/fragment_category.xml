@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/qrl_home"
+    android:id="@+id/qrl_category"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_home"
+        android:id="@+id/rv_category"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#f7f8fa" />
 
 </com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout>
