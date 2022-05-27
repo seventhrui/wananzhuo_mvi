@@ -80,4 +80,7 @@ interface Api {
      */
     @GET("/article/list/{page}/json")
     suspend fun articleList(@Path("page") page: Int, @Query("page_size") pageSize: Int): BaseResponse<ArticleListVO>
+
+    @GET("/tree/json")
+    suspend fun courseList(): BaseResponse<ArrayList<CourseGroupVO>>
 }
