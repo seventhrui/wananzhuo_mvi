@@ -1,6 +1,7 @@
 package com.seventh.demo.ui.category
 
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.seventh.demo.adapter.CategoryAdapter
 import com.seventh.demo.base.BaseFragment
@@ -8,6 +9,7 @@ import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.FragmentCategoryBinding
+import com.seventh.demo.widget.decoration.MySectionDecoration
 import com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout
 
 class CategoryTabFragment:BaseFragment<FragmentCategoryBinding>(FragmentCategoryBinding::inflate) {
@@ -18,6 +20,7 @@ class CategoryTabFragment:BaseFragment<FragmentCategoryBinding>(FragmentCategory
     override fun initView() {
         binding.rvCategory.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         binding.rvCategory.adapter = categoryAdapter
+        (binding.rvCategory.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
     }
 
     override fun initData() {
@@ -43,8 +46,9 @@ class CategoryTabFragment:BaseFragment<FragmentCategoryBinding>(FragmentCategory
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, CategoryViewState::categoryList) {
-                it.let { it1 ->
-                    categoryAdapter.setList(it1)
+                if (it.isNotEmpty()) {
+                    binding.rvCategory.addItemDecoration(MySectionDecoration(mContext, it))
+                    categoryAdapter.setList(it)
                 }
             }
         }
