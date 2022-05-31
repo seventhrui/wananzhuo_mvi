@@ -10,8 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="name" />
+        app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_category_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

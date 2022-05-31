@@ -18,6 +18,7 @@
 
     <color name="color_7e2626">#7e2626</color>
     <color name="color_fe3f6d">#fe3f6d</color>
+    <color name="color_fe3939">#fe3939</color>
 
     <!--  APP 主页5个TAB颜色  -->
     <color name="home_color_tab_select">@color/color_333333</color>

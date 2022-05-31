@@ -5,7 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.os.Binder
 import android.os.Build
+import android.os.Bundle
 import android.text.TextPaint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +21,17 @@ internal class MySectionDecoration(
     dataList: List<CourseGroupVO>
 ) : ItemDecoration() {
     private val titleDataList: List<CourseGroupVO>
+
     //绘制标题文字的画笔
     private val textPaint: TextPaint
+
     //绘制背景颜色的画笔
     private val paint: Paint
+    private val padpaint: Paint
+
     //想要的矩形的高度
     private val topHeight: Int
+
     //字体度量对象，记录我们要绘制字体的有关信息
     private var fontMetrics: Paint.FontMetrics
 
@@ -35,20 +42,28 @@ internal class MySectionDecoration(
         paint = Paint()
         //设置绘制背景的画笔颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            paint.color = res.getColor(R.color.purple_700, null)
+            paint.color = res.getColor(R.color.white, null)
         } else {
-            paint.color = res.getColor(R.color.purple_700)
+            paint.color = res.getColor(R.color.white)
         }
+
+        padpaint = Paint()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            padpaint.color = res.getColor(R.color.color_fe3939, null)
+        } else {
+            padpaint.color = res.getColor(R.color.color_fe3939)
+        }
+
 
         //设置悬浮栏中文本的画笔
         textPaint = TextPaint()
         textPaint.isAntiAlias = true
         textPaint.textSize = context.dp2px(14f).toFloat()
-        textPaint.color = Color.DKGRAY
+        textPaint.color = Color.BLACK
         textPaint.textAlign = Paint.Align.LEFT
         fontMetrics = Paint.FontMetrics()
         //决定悬浮栏的高度等
-        topHeight = res.getDimensionPixelSize(R.dimen.dp_27)
+        topHeight = res.getDimensionPixelSize(R.dimen.dp_50)
 
     }
 
@@ -116,15 +131,16 @@ internal class MySectionDecoration(
                 val textBaseLine = (bottom + top) / 2 + distance
                 //绘制悬浮栏
                 c.drawRect(left.toFloat(), top, right.toFloat(), bottom, paint)
+                c.drawRect(left.toFloat(), top, (left + 10).toFloat(), bottom, padpaint)
                 //绘制文本
-                c.drawText(groupName.name, left.toFloat(), textBaseLine, textPaint)
+                c.drawText(groupName.name, (left+10).toFloat(), textBaseLine, textPaint)
             }
         }
     }
 
     /**
      * 这个相当于一直在最上面绘制了一个项
-     * @param c 13453182279
+     * @param c
      * @param parent
      * @param state
      */
@@ -168,21 +184,12 @@ internal class MySectionDecoration(
         //基线距离文字中心的距离
         val distance = (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom
         //因为按道理一直在第一项，所以高应该为0，但是这么写相当于固定了头部，因为要有动画效果，所以可能变化，这里的top和bottom都要发生变化
-        c.drawRect(
-            left.toFloat(),
-            viewTitleHeight - topHeight,
-            right.toFloat(),
-            viewTitleHeight,
-            paint
-        )
+        c.drawRect(left.toFloat(), viewTitleHeight - topHeight, right.toFloat(), viewTitleHeight, paint)
+
+        c.drawRect(left.toFloat(), viewTitleHeight - topHeight, (left + 10).toFloat(), viewTitleHeight, padpaint)
 
         //绘制文字
-        c.drawText(
-            groupTitleName,
-            left.toFloat(),
-            (2 * viewTitleHeight - topHeight)/2 + distance,
-            textPaint
-        )
+        c.drawText(groupTitleName, (left+10).toFloat(), (2 * viewTitleHeight - topHeight) / 2 + distance, textPaint)
     }
 
     /**
