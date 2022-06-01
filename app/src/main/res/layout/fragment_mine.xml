@@ -3,7 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/tv_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="mine"/>
+        android:padding="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginStart="@dimen/dp_50"
+        android:text="TEST"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

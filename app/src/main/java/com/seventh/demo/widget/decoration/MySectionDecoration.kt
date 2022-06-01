@@ -5,9 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.os.Binder
 import android.os.Build
-import android.os.Bundle
 import android.text.TextPaint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
