@@ -1,8 +1,12 @@
 package com.seventh.demo.ui.home
 
+import android.content.Intent
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.seventh.demo.adapter.ArticleListAdapter
 import com.seventh.demo.adapter.BannerAdsAdapter
 import com.seventh.demo.base.BaseFragment
@@ -10,6 +14,7 @@ import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.FragmentHomeBinding
+import com.seventh.demo.ui.web.WebActivity
 import com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout
 import com.youth.banner.indicator.RectangleIndicator
 
@@ -56,17 +61,26 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
         articleListAdapter.loadMoreModule.setOnLoadMoreListener {
             viewModel.dispatch(HomeViewAction.GetListMore)
         }
+
+        articleListAdapter.setOnItemClickListener { adapter, view, position ->
+            startActivity(
+                Intent(mContext, WebActivity::class.java).apply {
+                    putExtra("url", viewModel.viewStates.value.articleList[position].link)
+                }
+            )
+        }
     }
 
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, HomeViewState::bannerList) {
+                Log.e("bannerList", "长度：${it.size}")
                 it.let { it1 ->
                     bannerAdsAdapter.setDatas(it1)
                 }
             }
             states.observeState(this, HomeViewState::articleList) {
-                Log.e("getlist", "长度：${it.size}")
+                Log.e("articleList", "长度：${it.size}")
                 it.let { it1 ->
                     articleListAdapter.setList(it1)
                 }

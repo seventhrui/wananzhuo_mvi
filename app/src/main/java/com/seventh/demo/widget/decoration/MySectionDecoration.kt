@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Build
 import android.text.TextPaint
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -62,7 +63,7 @@ internal class MySectionDecoration(
         fontMetrics = Paint.FontMetrics()
         //决定悬浮栏的高度等
         topHeight = res.getDimensionPixelSize(R.dimen.dp_50)
-
+        Log.e("paint", "绘制")
     }
 
     /**
