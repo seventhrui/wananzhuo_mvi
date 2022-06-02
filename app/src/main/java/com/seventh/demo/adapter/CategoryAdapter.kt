@@ -20,6 +20,10 @@ class CategoryAdapter(data: ArrayList<CourseGroupVO> = ArrayList()): BaseQuickAd
             justifyContent = JustifyContent.FLEX_START
         }
         holder.getView<RecyclerView>(R.id.rv_group).adapter = adapter
+
+        adapter.setOnItemClickListener { adapter, view, position ->
+
+        }
     }
 
 }

@@ -12,13 +12,15 @@ import com.seventh.demo.databinding.FragmentCategoryBinding
 import com.seventh.demo.widget.decoration.MySectionDecoration
 import com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout
 
-class CategoryTabFragment:BaseFragment<FragmentCategoryBinding>(FragmentCategoryBinding::inflate) {
+class CategoryTabFragment :
+    BaseFragment<FragmentCategoryBinding>(FragmentCategoryBinding::inflate) {
     private val viewModel by viewModels<CategoryViewModel>()
 
     private var categoryAdapter = CategoryAdapter()
 
     override fun initView() {
-        binding.rvCategory.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        binding.rvCategory.layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         binding.rvCategory.adapter = categoryAdapter
         (binding.rvCategory.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
     }
@@ -29,14 +31,15 @@ class CategoryTabFragment:BaseFragment<FragmentCategoryBinding>(FragmentCategory
 
     override fun initViewEvents() {
         viewModel.viewEvents.observeEvent(this) {
-            when(it) {
+            when (it) {
                 is CategoryViewEvent.ShowToast -> it.message.showToast()
                 is CategoryViewEvent.ShowLoadingDialog -> showLoading()
                 is CategoryViewEvent.DismissLoadingDialog -> dismissLoading()
             }
         }
 
-        binding.qrlCategory.setRefreshListener(object: QMUIPullRefreshLayout.SimpleRefreshListener {
+        binding.qrlCategory.setRefreshListener(object :
+            QMUIPullRefreshLayout.SimpleRefreshListener {
             override fun onRefresh() {
                 initData()
             }
