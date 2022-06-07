@@ -20,7 +20,7 @@ class HomeViewModel: ViewModel() {
     private val _viewEvents = SharedFlowEvents<HomeViewEvent>()
     val viewEvents = _viewEvents.asSharedFlow()
 
-    private var currentPage = 0
+    private var currentPage = 1
 
     fun dispatch(viewAction: HomeViewAction) {
         when(viewAction) {
@@ -61,7 +61,7 @@ class HomeViewModel: ViewModel() {
     private fun getListRefresh() {
         viewModelScope.launch {
             flow {
-                currentPage = 0
+                currentPage = 1
                 emit(Api.service.articleList(currentPage, 20))
             }.onStart {
                 _viewEvents.setEvent(HomeViewEvent.ShowLoadingDialog)

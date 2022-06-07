@@ -17,7 +17,7 @@ class ProjectViewModel: ViewModel() {
     private val _viewEvents = SharedFlowEvents<ProjectViewEvent>()
     val viewEvents = _viewEvents.asSharedFlow()
 
-    private var currentPage = 0
+    private var currentPage = 1
 
     fun dispatch(viewAction: ProjectViewAction) {
         when(viewAction) {
@@ -34,7 +34,7 @@ class ProjectViewModel: ViewModel() {
     private fun getListRefresh() {
         viewModelScope.launch {
             flow {
-                currentPage = 0
+                currentPage = 1
                 emit(Api.service.projectList(currentPage, 20, _viewStates.value.cid))
             }.onStart {
                 _viewEvents.setEvent(ProjectViewEvent.ShowLoadingDialog)
