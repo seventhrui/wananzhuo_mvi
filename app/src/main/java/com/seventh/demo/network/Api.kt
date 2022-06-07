@@ -81,6 +81,15 @@ interface Api {
     @GET("/article/list/{page}/json")
     suspend fun articleList(@Path("page") page: Int, @Query("page_size") pageSize: Int): BaseResponse<ArticleListVO>
 
+    /**
+     * 分类
+     */
     @GET("/tree/json")
     suspend fun courseList(): BaseResponse<ArrayList<CourseGroupVO>>
+
+    /**
+     * 项目列表
+     */
+    @GET("/project/list/{page}/json")
+    suspend fun projectList(@Path("page") page: Int, @Query("page_size") pageSize: Int, @Query("cid") cid: Int): BaseResponse<ProjectListVo>
 }

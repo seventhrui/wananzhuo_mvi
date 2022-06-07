@@ -1,6 +1,5 @@
 package com.seventh.demo.ui.category
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.seventh.demo.core.SharedFlowEvents
@@ -39,7 +38,6 @@ class CategoryViewModel: ViewModel() {
             }.onEach {
                 _viewStates.setState { copy(categoryList = it.result) }
             }.catch {
-                Log.e("CategoryViewModel", "getList:${it.message}")
                 _viewEvents.setEvent(
                     CategoryViewEvent.DismissLoadingDialog,
                     CategoryViewEvent.ShowToast("${it.message}")

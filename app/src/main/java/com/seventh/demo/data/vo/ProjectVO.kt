@@ -4,13 +4,12 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ArticleListVO(
-    val datas: List<ArticleVO>
-): Parcelable
+data class ProjectListVo(
+    val datas: List<ProjectVO>
+):Parcelable
 
 @Parcelize
-data class ArticleVO(
-    val id: Int,
+data class ProjectVO(
     val audit: Int,
     val author: String,
     val canEdit: Boolean,
@@ -23,6 +22,7 @@ data class ArticleVO(
     val envelopePic: String,
     val fresh: Boolean,
     val host: String,
+    val id: Int,
     val link: String,
     val niceDate: String,
     val niceShareDate: String,
@@ -30,16 +30,16 @@ data class ArticleVO(
     val prefix: String,
     val projectLink: String,
     val publishTime: Long,
-    val realSuperChapterId: String,
+    val realSuperChapterId: Int,
     val selfVisible: Int,
     val shareDate: Long,
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<TagVO>,
+    val tags: ArrayList<TagVO>,
     val title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,
-    val zan: Int
+    val zan: Int,
 ): Parcelable

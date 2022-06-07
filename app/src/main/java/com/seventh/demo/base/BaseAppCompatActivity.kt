@@ -31,7 +31,10 @@ abstract class BaseAppCompatActivity<VB : ViewBinding>(private val bindingInflat
         initView()
         initViewStates()
         initViewEvents()
+        initData()
     }
+
+    protected open fun initData() {}
 
     protected open fun showLoading() {}
 

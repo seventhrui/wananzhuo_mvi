@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.seventh.demo.ui.login.LoginActivity"/>
+        <activity android:name="com.seventh.demo.ui.category.ProjectListActivity"/>
         <activity android:name="com.seventh.demo.ui.web.WebActivity"/>
         <activity android:name="com.seventh.demo.ui.setting.SettingActivity" />
     </application>
