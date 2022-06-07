@@ -49,7 +49,7 @@ class CategoryTabFragment :
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, CategoryViewState::categoryList) {
-                if (it.isNotEmpty()) {
+                if (it.isNotEmpty() && categoryAdapter.data!=it) {
                     binding.rvCategory.addItemDecoration(MySectionDecoration(mContext, it))
                     categoryAdapter.setList(it)
                 }
