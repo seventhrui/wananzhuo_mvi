@@ -9,5 +9,5 @@
         android:padding="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_50"
         android:layout_marginStart="@dimen/dp_50"
-        android:text="TEST"/>
+        android:text="检查更新"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -105,7 +105,6 @@ class HomeViewModel: ViewModel() {
             }.catch {
                 Log.e("HomeViewModel", "getList:${it.message}")
                 _viewEvents.setEvent(
-                    HomeViewEvent.DismissLoadingDialog,
                     HomeViewEvent.ShowToast("${it.message}")
                 )
             }.onCompletion {

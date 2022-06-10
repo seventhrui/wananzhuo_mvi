@@ -13,7 +13,7 @@ import javax.net.ssl.SSLSession
 
 interface Api {
     companion object {
-        val BASE_URL = when(BuildConfig.IS_DEV) {
+        private val BASE_URL = when(BuildConfig.IS_DEV) {
             true -> "https://www.wanandroid.com"
             false -> "https://www.wanandroid.com"
         }
@@ -37,7 +37,6 @@ interface Api {
         }
     }
 
-//    @FormUrlEncoded
     @POST("/Index/checkUpdate")
     suspend fun checkAppUpdate(): BaseResponse<AppVersionVO>
 
