@@ -26,6 +26,7 @@ interface Api {
                     }
                 })
                 .addInterceptor(HeaderInterceptor())
+                .addInterceptor(DomainSwitchInterceptor())
                 .addInterceptor(LoggerInterceptor(BuildConfig.IS_DEBUG, BuildConfig.IS_DEBUG))
 
             Retrofit.Builder()
@@ -37,6 +38,7 @@ interface Api {
         }
     }
 
+    @Headers("domain:https://zhwapp.zuhaowan.com")
     @POST("/Index/checkUpdate")
     suspend fun checkAppUpdate(): BaseResponse<AppVersionVO>
 
