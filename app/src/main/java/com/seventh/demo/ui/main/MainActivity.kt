@@ -3,6 +3,8 @@ package com.seventh.demo.ui.main
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.orhanobut.logger.Logger
 import com.seventh.demo.R
 import com.seventh.demo.base.BaseAppCompatActivity
 import com.seventh.demo.databinding.ActivityMainBinding
@@ -22,6 +24,10 @@ enum class HomePageTabType(val tabName: String) {
 }
 
 class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+    val viewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
 
     private var currentTabPage: HomePageTabType? = HomePageTabType.Home
 
@@ -33,6 +39,10 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
     }
 
     override fun initViewEvents() {
+        viewModel.statusLightMode.observe(this) {
+            Logger.e("状态栏是否浅色：${it}")
+            overrideStatusBar(is_M_LightMode = it)
+        }
 
     }
 

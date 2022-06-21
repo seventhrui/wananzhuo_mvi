@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import coil.load
 import com.seventh.demo.R
 import com.seventh.demo.data.vo.BannerVo
 import com.youth.banner.adapter.BannerAdapter
@@ -37,16 +36,11 @@ class BannerAdsAdapter(private val context: Context): BannerAdapter<BannerVo, Ba
         size: Int,
     ) {
         if(imgWidth > 0 && imgHeight > 0){
-            Glide.with(context)
-                .load(data.imagePath)
-                .override(imgWidth, imgHeight)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.ivImage)
+            holder.ivImage.load(data.imagePath){
+                size(imgWidth, imgHeight)
+            }
         } else{
-            Glide.with(context)
-                .load(data.imagePath)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.ivImage)
+            holder.ivImage.load(data.imagePath)
         }
     }
 

@@ -1,12 +1,13 @@
 package com.seventh.demo.ui.home
 
 import android.content.Intent
-import android.util.Log
-import android.view.View
+import androidx.activity.viewModels
+import androidx.core.graphics.ColorUtils
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.orhanobut.logger.Logger
 import com.seventh.demo.adapter.ArticleListAdapter
 import com.seventh.demo.adapter.BannerAdsAdapter
 import com.seventh.demo.base.BaseFragment
@@ -14,26 +15,83 @@ import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.FragmentHomeBinding
+import com.seventh.demo.extension.getImageBitmapByUrl
+import com.seventh.demo.ui.main.MainViewModel
 import com.seventh.demo.ui.web.WebActivity
 import com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout
 import com.youth.banner.indicator.RectangleIndicator
+import com.youth.banner.listener.OnPageChangeListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val viewModel by viewModels<HomeViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var bannerAdsAdapter: BannerAdsAdapter
     private var articleListAdapter = ArticleListAdapter()
 
     override fun initView() {
         bannerAdsAdapter = BannerAdsAdapter(mContext)
-        binding.homeBanner.setAdapter(bannerAdsAdapter)
-        binding.homeBanner.indicator = RectangleIndicator(mContext)
-        binding.homeBanner.setOnBannerListener{ data, position ->
+        binding.homeBanner.apply {
+            setLoopTime(1500)
+            setAdapter(bannerAdsAdapter)
+            indicator = RectangleIndicator(mContext)
+            setOnBannerListener { data, position ->
 
+            }
+            addOnPageChangeListener(object : OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    Logger.e("位置：${position}")
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val bitmap =
+                            mContext.getImageBitmapByUrl(viewModel.viewStates.value.bannerList[position].imagePath)
+                        bitmap?.let { bmp ->
+                            Palette
+                                .from(bmp)
+                                .maximumColorCount(5)
+                                .setRegion(0, 0, 900, 500)
+                                .generate {
+                                    it?.let { palette ->
+                                        var mostPopularSwatch: Palette.Swatch? = null
+                                        for (swatch in palette.swatches) {
+                                            if (mostPopularSwatch == null
+                                                || swatch.population > mostPopularSwatch.population
+                                            ) {
+                                                mostPopularSwatch = swatch
+                                            }
+                                        }
+                                        mostPopularSwatch?.let { swatch ->
+                                            val luminance =
+                                                ColorUtils.calculateLuminance(swatch.rgb)
+                                            Logger.e("取色：${luminance}")
+                                            // If the luminance value is lower than 0.5, we consider it as dark.
+                                            mainViewModel.statusLightMode.value = luminance >= 0.5
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                }
+
+                override fun onPageSelected(position: Int) {
+
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+
+            })
         }
-
         binding.rvHome.setHasFixedSize(true)
-        binding.rvHome.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        binding.rvHome.layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         binding.rvHome.adapter = articleListAdapter
     }
 
@@ -44,14 +102,14 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     override fun initViewEvents() {
         viewModel.viewEvents.observeEvent(this) {
-            when(it) {
+            when (it) {
                 is HomeViewEvent.ShowToast -> it.message.showToast()
                 is HomeViewEvent.ShowLoadingDialog -> showLoading()
                 is HomeViewEvent.DismissLoadingDialog -> dismissLoading()
             }
         }
 
-        binding.qrlHome.setRefreshListener(object: QMUIPullRefreshLayout.SimpleRefreshListener {
+        binding.qrlHome.setRefreshListener(object : QMUIPullRefreshLayout.SimpleRefreshListener {
             override fun onRefresh() {
                 initData()
             }
@@ -74,13 +132,13 @@ class HomeTabFragment: BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, HomeViewState::bannerList) {
-                Log.e("bannerList", "长度：${it.size}")
+                Logger.e("bannerList, 长度：${it.size}")
                 it.let { it1 ->
                     bannerAdsAdapter.setDatas(it1)
                 }
             }
             states.observeState(this, HomeViewState::articleList) {
-                Log.e("articleList", "长度：${it.size}")
+                Logger.e("articleList, 长度：${it.size}")
                 it.let { it1 ->
                     articleListAdapter.setList(it1)
                 }
