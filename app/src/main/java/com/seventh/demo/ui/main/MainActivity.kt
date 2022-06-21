@@ -41,7 +41,6 @@ class MainActivity: BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBindi
     override fun initViewEvents() {
         viewModel.statusLightMode.observe(this) {
             Logger.e("状态栏是否浅色：${it}")
-            overrideStatusBar(is_M_LightMode = it)
         }
 
     }

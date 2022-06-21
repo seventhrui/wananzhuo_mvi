@@ -1,7 +1,6 @@
 package com.seventh.demo.ui.home
 
 import android.content.Intent
-import androidx.activity.viewModels
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -38,6 +37,7 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
             setLoopTime(1500)
             setAdapter(bannerAdsAdapter)
             indicator = RectangleIndicator(mContext)
+            addBannerLifecycleObserver(this@HomeTabFragment)
             setOnBannerListener { data, position ->
 
             }
@@ -72,6 +72,7 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
                                             Logger.e("取色：${luminance}")
                                             // If the luminance value is lower than 0.5, we consider it as dark.
                                             mainViewModel.statusLightMode.value = luminance >= 0.5
+                                            overrideStatusBar(isHideStatusBar = true, is_M_LightMode = luminance >= 0.5)
                                         }
                                     }
                                 }
