@@ -33,4 +33,26 @@
         <!-- 设置window过度效果 禁用窗口的预览动画 -->
         <item name="android:windowDisablePreview">false</item>
     </style>
+
+    <style name="popup_dialog_style" parent="android:style/Theme.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否悬浮在activity上   false: dialog 布满整个屏幕， true，显示指定大小-->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 无标题   false 的时候，在没有给定title的情况下，会比true的情况显示要长（title显示了，没有内容而已-->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!-- 模糊 false： 整个界面不会有遮罩层-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 灰度  当android:backgroundDimEnabled=true时，这个参数才有用，值越大，遮罩层颜色越深-->
+        <item name="android:backgroundDimAmount">0.6</item>
+        <!--背景-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 对话框是否有遮盖 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 背景缓存颜色 -->
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
 </resources>

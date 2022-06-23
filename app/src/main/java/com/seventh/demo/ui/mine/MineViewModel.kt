@@ -41,7 +41,6 @@ class MineViewModel: ViewModel() {
             }.catch {
                 _viewEvents.setEvent(
                     MineViewEvent.ShowToast("${it.message}"),
-
                 )
             }.onCompletion {
                 _viewEvents.setEvent(MineViewEvent.DismissLoadingDialog)

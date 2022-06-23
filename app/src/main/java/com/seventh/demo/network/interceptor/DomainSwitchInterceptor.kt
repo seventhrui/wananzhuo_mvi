@@ -1,4 +1,4 @@
-package com.seventh.demo.network
+package com.seventh.demo.network.interceptor
 
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor

@@ -2,12 +2,16 @@ package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
 import com.seventh.demo.data.vo.*
+import com.seventh.demo.network.interceptor.DomainSwitchInterceptor
+import com.seventh.demo.network.interceptor.HeaderInterceptor
+import com.seventh.demo.network.interceptor.LoggerInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLSession
 
@@ -36,9 +40,23 @@ interface Api {
                 .build()
                 .create(Api::class.java)
         }
+
+        val downloadService: Api by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            val okHttpClientBuilder = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(DomainSwitchInterceptor())
+                .hostnameVerifier { hostname, session -> true }
+
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClientBuilder.build())
+                .build()
+                .create(Api::class.java)
+        }
     }
 
-    @Headers("domain:https://zhwapp.zuhaowan.com")
+    @Headers("domain:https://www.xxx.com")
     @POST("/Index/checkUpdate")
     suspend fun checkAppUpdate(): BaseResponse<AppVersionVO>
 

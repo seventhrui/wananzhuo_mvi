@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id "kotlin-parcelize"
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -69,6 +70,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
+    //权限
+    implementation 'org.permissionsdispatcher:permissionsdispatcher:4.8.0'
+    kapt 'org.permissionsdispatcher:permissionsdispatcher-processor:4.8.0'
 
     implementation("com.orhanobut:logger:2.2.0")
 

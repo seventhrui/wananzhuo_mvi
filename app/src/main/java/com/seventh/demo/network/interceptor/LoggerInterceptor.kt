@@ -1,7 +1,6 @@
-package com.seventh.demo.network
+package com.seventh.demo.network.interceptor
 
 import android.text.TextUtils
-import android.util.Log
 import com.orhanobut.logger.Logger
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -32,7 +31,8 @@ class LoggerInterceptor(private val showRquestBody: Boolean, private val showRes
                     printBuilder.append("[message = ${clone.message}]")
                 }
                 var body = clone.body
-                if (body != null) {
+                Logger.e("长度：${body?.contentLength()}")
+                if (body != null && body?.contentLength()<1024*1024*10) {
                     val mediaType = body.contentType()
                     if (mediaType != null) {
                         printBuilder.append("[mediaType = $mediaType]")

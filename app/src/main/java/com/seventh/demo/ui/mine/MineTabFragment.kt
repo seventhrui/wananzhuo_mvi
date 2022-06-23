@@ -6,6 +6,7 @@ import com.seventh.demo.core.observeEvent
 import com.seventh.demo.core.observeState
 import com.seventh.demo.core.showToast
 import com.seventh.demo.databinding.FragmentMineBinding
+import com.seventh.demo.widget.dialog.AppUpdateDialog
 
 class MineTabFragment: BaseFragment<FragmentMineBinding>(FragmentMineBinding::inflate) {
     private val viewModel by viewModels<MineViewModel>()
@@ -31,9 +32,10 @@ class MineTabFragment: BaseFragment<FragmentMineBinding>(FragmentMineBinding::in
     override fun initViewStates() {
         viewModel.viewStates.let { states ->
             states.observeState(this, MineViewState::appVersionVO) {
-
+                it?.let{
+                    AppUpdateDialog.newInstance(it).show(childFragmentManager)
+                }
             }
-
         }
     }
 

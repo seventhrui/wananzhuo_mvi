@@ -47,7 +47,6 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
-                    Logger.e("位置：${position}")
                     GlobalScope.launch(Dispatchers.IO) {
                         val bitmap =
                             mContext.getImageBitmapByUrl(viewModel.viewStates.value.bannerList[position].imagePath)
@@ -69,7 +68,6 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
                                         mostPopularSwatch?.let { swatch ->
                                             val luminance =
                                                 ColorUtils.calculateLuminance(swatch.rgb)
-                                            Logger.e("取色：${luminance}")
                                             // If the luminance value is lower than 0.5, we consider it as dark.
                                             mainViewModel.statusLightMode.value = luminance >= 0.5
                                             overrideStatusBar(isHideStatusBar = true, is_M_LightMode = luminance >= 0.5)

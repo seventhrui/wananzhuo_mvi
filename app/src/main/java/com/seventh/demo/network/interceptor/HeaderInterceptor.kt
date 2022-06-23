@@ -1,4 +1,4 @@
-package com.seventh.demo.network
+package com.seventh.demo.network.interceptor
 
 import com.seventh.demo.core.showToast
 import okhttp3.FormBody
