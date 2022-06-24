@@ -18,7 +18,7 @@ class DownLoadScope(
 
     private val downloadProgressDSL: DownloadProgressDSL = DownloadProgressDSL().apply(dsl)
 
-    suspend fun suspendStart() {
+    private suspend fun suspendStart() {
         var mFile: File? = null
         var outputStream: OutputStream? = null
         var inputStream: InputStream? = null
