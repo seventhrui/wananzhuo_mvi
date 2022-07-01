@@ -145,6 +145,11 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
         }
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Logger.e("fragment isVisible: $isVisibleToUser")
+    }
+
     override fun dismissLoading() {
         super.dismissLoading()
         binding.qrlHome.finishRefresh()

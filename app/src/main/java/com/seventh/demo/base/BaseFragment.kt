@@ -3,14 +3,12 @@ package com.seventh.demo.base
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.orhanobut.logger.Logger
 import com.seventh.demo.R
 import com.seventh.demo.extension.colorById
 import com.seventh.demo.widget.statusbar.StatusBarCompat
