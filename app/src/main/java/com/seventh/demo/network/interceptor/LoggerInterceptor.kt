@@ -31,14 +31,16 @@ class LoggerInterceptor(private val showRquestBody: Boolean, private val showRes
                     printBuilder.append("[message = ${clone.message}]")
                 }
                 var body = clone.body
-                Logger.e("长度：${body?.contentLength()}")
-                if (body != null && body?.contentLength()<1024*1024*10) {
+                if (body != null) {
                     val mediaType = body.contentType()
                     if (mediaType != null) {
                         printBuilder.append("[mediaType = $mediaType]")
                         val resp = body.string()
                         printBuilder.append("\n $resp")
-                        Logger.d(printBuilder.toString())
+                        if(body.contentLength()<1024*1024*10)
+                            Logger.d(printBuilder.toString())
+                        else
+                            Logger.e("长度：${body.contentLength()}")
                         body = resp.toResponseBody(mediaType)
                         return response.newBuilder().body(body).build()
                     }
