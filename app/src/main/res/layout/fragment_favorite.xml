@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/qrl_project"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="favorite"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:background="#f7f8fa" />
+
+</com.seventh.demo.widget.qmuirefresh.QMUIPullRefreshLayout>
