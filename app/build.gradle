@@ -20,8 +20,32 @@ android {
         buildConfigField 'boolean', 'IS_DEV', "${APP_API_DEV}"
     }
 
+    applicationVariants.all { variant ->    //批量修改Apk名字
+        variant.outputs.all { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+                def timetemp = getCurrentTime()
+                timetemp = timetemp.replace("\"", "")
+                outputFileName = "mvi_v${defaultConfig.versionName}_${timetemp}.apk"
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            try {
+                storeFile file("keystore/release.jks")
+                storePassword "seventh"
+                keyAlias "seventh"
+                keyPassword "seventh"
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -30,20 +54,11 @@ android {
     viewBinding {
         enabled = true
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
 
 dependencies {
-    implementation "androidx.activity:activity-ktx:1.4.0"
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation "androidx.activity:activity-ktx:1.5.0"
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
@@ -53,9 +68,9 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
 
 //    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
 //    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
@@ -90,4 +105,8 @@ dependencies {
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
     implementation 'com.github.donkingliang:ConsecutiveScroller:4.6.1'
+}
+
+static def getCurrentTime() {
+    return new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT+8"))
 }

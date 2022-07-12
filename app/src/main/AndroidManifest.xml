@@ -20,7 +20,6 @@
         <provider
             android:name=".context.ContextProvider"
             android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
             android:grantUriPermissions="true"
             android:multiprocess="true">
             <meta-data
