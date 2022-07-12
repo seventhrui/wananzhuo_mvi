@@ -2,6 +2,7 @@ package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
 import com.seventh.demo.data.vo.*
+import com.seventh.demo.network.interceptor.CacheInterceptor
 import com.seventh.demo.network.interceptor.DomainSwitchInterceptor
 import com.seventh.demo.network.interceptor.HeaderInterceptor
 import com.seventh.demo.network.interceptor.LoggerInterceptor
@@ -29,6 +30,7 @@ interface Api {
                         return true
                     }
                 })
+                .addInterceptor(CacheInterceptor())
                 .addInterceptor(HeaderInterceptor())
                 .addInterceptor(DomainSwitchInterceptor())
                 .addInterceptor(LoggerInterceptor(BuildConfig.IS_DEBUG, BuildConfig.IS_DEBUG))
