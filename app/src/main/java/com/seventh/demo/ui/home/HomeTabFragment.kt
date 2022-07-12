@@ -31,6 +31,21 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
     private lateinit var bannerAdsAdapter: BannerAdsAdapter
     private var articleListAdapter = ArticleListAdapter()
 
+    private var firstBannerLoad = true
+
+    override fun onResume() {
+        super.onResume()
+        Logger.e("onResume")
+        if (!firstBannerLoad)
+            binding.homeBanner.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Logger.e("onPause")
+        binding.homeBanner.stop()
+    }
+
     override fun initView() {
         bannerAdsAdapter = BannerAdsAdapter(mContext)
         binding.homeBanner.apply {
@@ -134,6 +149,7 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
                 Logger.e("bannerList, 长度：${it.size}")
                 it.let { it1 ->
                     bannerAdsAdapter.setDatas(it1)
+                    firstBannerLoad = false
                 }
             }
             states.observeState(this, HomeViewState::articleList) {
@@ -145,9 +161,9 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
         }
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        Logger.e("fragment isVisible: $isVisibleToUser")
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+
     }
 
     override fun dismissLoading() {

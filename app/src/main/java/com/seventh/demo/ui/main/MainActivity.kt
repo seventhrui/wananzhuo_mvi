@@ -4,7 +4,6 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.orhanobut.logger.Logger
 import com.seventh.demo.R
 import com.seventh.demo.base.BaseAppCompatActivity
 import com.seventh.demo.databinding.ActivityMainBinding

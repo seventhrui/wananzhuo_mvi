@@ -50,7 +50,17 @@ abstract class BaseFragment<VB : ViewBinding>(private val bindingInflater: (infl
         initData()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
     protected open fun initData() {}
+
+    override fun onPause() {
+        super.onPause()
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
