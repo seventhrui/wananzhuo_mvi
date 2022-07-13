@@ -60,6 +60,7 @@ class LoginActivity: BaseAppCompatActivity<ActivityLoginBinding>(ActivityLoginBi
     }
 
     private fun gotoMainActivity() {
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 }

@@ -48,7 +48,6 @@ class ProjectViewModel: ViewModel() {
                 _viewStates.setState { copy(projectList = it.result.datas) }
             }.catch {
                 _viewEvents.setEvent(
-                    ProjectViewEvent.DismissLoadingDialog,
                     ProjectViewEvent.ShowToast("${it.message}")
                 )
             }.onCompletion {
@@ -76,7 +75,6 @@ class ProjectViewModel: ViewModel() {
                 _viewStates.setState { copy(projectList = this.projectList + it.result.datas) }
             }.catch {
                 _viewEvents.setEvent(
-                    ProjectViewEvent.DismissLoadingDialog,
                     ProjectViewEvent.ShowToast("${it.message}")
                 )
             }.onCompletion {

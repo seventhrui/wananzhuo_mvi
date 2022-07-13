@@ -1,11 +1,8 @@
 package com.seventh.demo.ui.category
 
 import android.content.Intent
-import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.seventh.demo.adapter.ProjectAdapter
 import com.seventh.demo.base.BaseAppCompatActivity
 import com.seventh.demo.core.observeEvent
@@ -72,6 +69,6 @@ class ProjectListActivity: BaseAppCompatActivity<ActivityProjectListBinding>(Act
     override fun dismissLoading() {
         super.dismissLoading()
         binding.qrlProject.finishRefresh()
-        projectAdapter.loadMoreModule.isLoadEndMoreGone
+        projectAdapter.loadMoreModule.loadMoreComplete()
     }
 }

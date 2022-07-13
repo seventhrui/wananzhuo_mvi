@@ -7,6 +7,8 @@ import com.seventh.demo.extension.toJson
 object AppUserUtil {
     private const val LOGGED_FLAG = "logged_flag"
     private const val USER_INFO = "user_info"
+    private const val USER_TOKEN = "user_token"
+
 
     var isLogged: Boolean
         get() = DataStoreUtils.readBooleanData(LOGGED_FLAG, false)
@@ -19,6 +21,14 @@ object AppUserUtil {
     fun onLogin(userInfo: UserInfoVO?) {
         isLogged = true
         this.userInfo = userInfo
+    }
+
+    var userToken: String?
+        get() = DataStoreUtils.readStringData(USER_TOKEN)
+        set(value) = DataStoreUtils.saveSyncStringData(USER_TOKEN, value= value ?: "")
+
+    fun onTolen(cookie: String) {
+        this.userToken = cookie
     }
 
     fun onLogOut() {

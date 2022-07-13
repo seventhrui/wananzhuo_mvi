@@ -169,6 +169,6 @@ class HomeTabFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::i
     override fun dismissLoading() {
         super.dismissLoading()
         binding.qrlHome.finishRefresh()
-        articleListAdapter.loadMoreModule.isLoadEndMoreGone
+        articleListAdapter.loadMoreModule.loadMoreComplete()
     }
 }

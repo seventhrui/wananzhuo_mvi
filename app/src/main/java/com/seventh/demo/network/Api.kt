@@ -2,10 +2,7 @@ package com.seventh.demo.network
 
 import com.seventh.demo.BuildConfig
 import com.seventh.demo.data.vo.*
-import com.seventh.demo.network.interceptor.CacheInterceptor
-import com.seventh.demo.network.interceptor.DomainSwitchInterceptor
-import com.seventh.demo.network.interceptor.HeaderInterceptor
-import com.seventh.demo.network.interceptor.LoggerInterceptor
+import com.seventh.demo.network.interceptor.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -30,7 +27,8 @@ interface Api {
                         return true
                     }
                 })
-                .addInterceptor(CacheInterceptor())
+                .addInterceptor(ReadCookiesInterceptor())
+                .addInterceptor(SaveCookiesInterceptor())
                 .addInterceptor(HeaderInterceptor())
                 .addInterceptor(DomainSwitchInterceptor())
                 .addInterceptor(LoggerInterceptor(BuildConfig.IS_DEBUG, BuildConfig.IS_DEBUG))
@@ -113,4 +111,10 @@ interface Api {
      */
     @GET("/project/list/{page}/json")
     suspend fun projectList(@Path("page") page: Int, @Query("page_size") pageSize: Int, @Query("cid") cid: Int): BaseResponse<ProjectListVo>
+
+    /**
+     * 收藏列表
+     */
+    @GET("/lg/collect/list/{page}/json")
+    suspend fun collectList(@Path("page") page: Int, @Query("page_size") pageSize: Int): BaseResponse<ArticleListVO>
 }
