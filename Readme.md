@@ -26,9 +26,11 @@
 - [Retrofit](https://github.com/square/retrofit)
 - [okhttp](https://github.com/square/okhttp)
 - [Glide](https://bumptech.github.io/glide)
+- [coil](https://github.com/coil-kt/coil)
 - [Lottie](http://airbnb.io/lottie)
 - [logger](https://github.com/orhanobut/logger)
 - [ToastUtils](https://github.com/getActivity/ToastUtils)
+- [banner](https://github.com/youth5201314/banner)
 
 ## 更新日志
 
